@@ -9,4 +9,6 @@
   template: src=config.php dest={{ web_root }}/{{ wordpress_vhost }}/config/config.php owner=www-data group=www-data mode=755
 
 
+- name: Create database for wordpress
+  mysql_db:
 
