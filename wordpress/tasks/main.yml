@@ -1,0 +1,3 @@
+---
+- name: Install wordpress
+  apt: name=wordpress state=present
