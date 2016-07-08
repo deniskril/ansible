@@ -1,6 +1,9 @@
 ---
+- name: Create directory for wordpress
+  file: src={{ web_root }}/{{ wordpress_vhost }} state=directory
+
 - name: Download and unpacking latest wordpress archive
-  unarchive: src=https://wordpress.org/latest.zip dest={{ wordpress_root_directory }} copy=no
+  unarchive: src=https://wordpress.org/latest.zip dest={{ web_root }}/{{ wordpress_vhost }} copy=no
 
 - name: Unpacking wordpress archive
   
