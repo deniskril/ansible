@@ -1,0 +1,3 @@
+---
+- name: Add mysql latest repository
+  apt_repository: name="" state=present

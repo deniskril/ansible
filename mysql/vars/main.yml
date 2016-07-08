@@ -1,4 +1,5 @@
 ---
+# General settings
 mysql_port: 3306
 mysql_socket: /var/run/mysqld/mysqld.sock
 mysql_bind_address: 127.0.0.1
