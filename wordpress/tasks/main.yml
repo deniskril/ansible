@@ -1,3 +1,6 @@
 ---
-- name: Install wordpress
-  apt: name=wordpress state=present
+- name: Download and unpacking latest wordpress archive
+  unarchive: src=https://wordpress.org/latest.zip dest={{ wordpress_root_directory }} copy=no
+
+- name: Unpacking wordpress archive
+  
