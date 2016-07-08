@@ -3,7 +3,8 @@
   file: src={{ web_root }}/{{ wordpress_vhost }} state=directory
 
 - name: Download and unpacking latest wordpress archive
-  unarchive: src=https://wordpress.org/latest.zip dest={{ web_root }}/{{ wordpress_vhost }} copy=no
+  unarchive: src=https://ru.wordpress.org/latest-ru_RU.zip dest={{ web_root }}/{{ wordpress_vhost }} copy=no
 
-- name: Unpacking wordpress archive
+- name: Configure wordpress
+  
   
