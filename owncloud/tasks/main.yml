@@ -2,4 +2,5 @@
 - name: Install owncloud
   apt: name=owncloud state=present
 
-        - name:
+- name: Configure owncloud
+  template: src=config.php dest={{ owncloud_web_root }}/config.php
