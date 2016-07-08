@@ -1,0 +1,5 @@
+---
+- name: Install owncloud
+  apt: name=owncloud state=present
+
+        - name:
