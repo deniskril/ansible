@@ -7,22 +7,22 @@ mysql_datadir: /var/lib/mysql
 mysql_pid_file: /var/lib/mysql/mysqld.pid
 mysql_syslog_tag:
 mysql_log:
-mysql_log_error: /var/log/mysql/mysql.error
+mysql_log_error:
 mysql_slow_query_log_file:
 mysql_slow_query_time:
 mysql_server_id:
-mysql_expire_logs_days: 30
-mysql_max_binlog_size: 100M
+mysql_expire_logs_days:
+mysql_max_binlog_size:
 
 # Memory settings
-mysql_key_buffer_size: 16M
-mysql_max_allowed_packet: 64M
+mysql_key_buffer_size:
+mysql_max_allowed_packet:
 mysql_table_open_cache:
 mysql_sort_buffer_size:
 mysql_read_buffer_size:
 mysql_read_rnd_buffer_size:
 mysql_myisam_sort_buffer_size:
-mysql_thread_cache_size: 8
+mysql_thread_cache_size:
 mysql_query_cache_size:
 mysql_max_connections:
 
@@ -31,7 +31,7 @@ mysql_wait_timeout:
 
 # InnoDB settings.
 mysql_innodb_file_per_table: 1
-mysql_innodb_buffer_pool_size: 32G
+mysql_innodb_buffer_pool_size:
 mysql_innodb_log_file_size:
 mysql_innodb_log_buffer_size:
 mysql_innodb_flush_log_at_trx_commit:
