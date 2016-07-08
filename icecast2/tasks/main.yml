@@ -1,0 +1,35 @@
+---
+- name: Add backports
+  apt_repository: repo='deb http://http.debian.net/debian {{ ansible_distribution_release }}-backports main' state=present
+
+- name: Initiate setup
+  debconf: name='icecast2' question='icecast2/icecast-setup' value='true' vtype='boolean'
+
+- name: Configure hostname
+  debconf: name='icecast2' question='icecast2/hostname' value='{{icecast_hostname}}' vtype='string'
+
+- name: Configure admin password
+  debconf: name='icecast2' question='icecast2/adminpassword' value='{{icecast_adminpassword}}' vtype='password'
+
+- name: Configure stream password
+  debconf: name='icecast2' question='icecast2/sourcepassword' value='{{icecast_sourcepassword}}' vtype='password'
+
+- name: Configure relay password
+  debconf: name='icecast2' question='icecast2/relaypassword' value='{{icecast_relaypassword}}' vtype='password'
+
+- name: Install Icecast
+  apt: name=icecast2 state=latest default_release=jessie-backports update_cache=yes
+
+- name: Set icecast port
+  shell: xmlstarlet edit --inplace --update '/icecast/listen-socket/port' --value {{icecast_port}} /etc/icecast2/icecast.xml
+
+- name: Open icecast in Firewall
+  firewalld: port={{icecast_port}}/tcp permanent=true state=enabled immediate=true
+
+- name: Give icecast ability to run as non-root if port is < 1024
+  shell: setcap 'cap_net_bind_service=+ep' /usr/bin/icecast2
+  when: icecast_port|int < 1024
+
+- name: Enable the service
+  lineinfile: dest=/etc/default/icecast2 regexp="^ENABLE" line="ENABLE=true" state=present
+  notify: Restart Icecast2
