@@ -6,5 +6,7 @@
   unarchive: src=https://ru.wordpress.org/latest-ru_RU.zip dest={{ web_root }}/{{ wordpress_vhost }} copy=no
 
 - name: Configure wordpress
-  
-  
+  template: src=config.php dest={{ web_root }}/{{ wordpress_vhost }}/config/config.php owner=www-data group=www-data mode=755
+
+
+
