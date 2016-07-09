@@ -27,8 +27,42 @@
   apache2_module: name=dir state=absent
   register: dir_module_disabled
 
-- name: Add Apache vvirtual hosts configuration.
+- name: Add Apache virtual hosts configuration.
   template: src=vhost.conf.j2 dest={{ apache_server_root }}/sites-available/{{ apache_vhosts }}.conf owner=www-data group=www-data mode=0644
+  notify: Restart Apache2
+
+- name: Add Apache vvirtual hosts configuration.
+  template: src=vhost.conf.j2 dest={{ apache_server_root }}/sites-available/{{ item }}.conf owner=www-data group=www-data mode=0644
+  with_items:
+    - a.example.com
+    - b.example.com
+    - c.example.com
+    - d.example.com
+    - e.example.com
+    - f.example.com
+    - g.example.com
+    - h.example.com
+    - i.example.com
+    - j.example.com
+    - k.example.com
+    - l.example.com
+  notify: Restart Apache2
+
+- name: Enable virtual hosts in Apache2 Server
+  command: a2ensite {{ item }}
+  with_items:
+    - a.example.com
+    - b.example.com
+    - c.example.com
+    - d.example.com
+    - e.example.com
+    - f.example.com
+    - g.example.com
+    - h.example.com
+    - i.example.com
+    - j.example.com
+    - k.example.com
+    - l.example.com
   notify: Restart Apache2
 
 - name: Enable virtual hosts in Apache2 Server
