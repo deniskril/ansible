@@ -1,0 +1,37 @@
+---
+- name: Install Apache2 Server.
+  apt: name=apache2 state=latest update_cache=yes
+
+- name: Configuring Apache2 Server.
+  lineinfile: dest="{{ apache_server_root }}/ports.conf" regexp="{{ item.regexp }}" line="{{ item.line }}" state=present
+  with_items: "{{ apache_ports_configuration_items }}"
+  notify: Restart Apache2
+
+- name: Enable Apache2 ssl modules.
+  apache2_module: name=ssl state=present
+  register: ssl_module_enabled
+
+- name: Enable Apache2 rewrite module.
+  apache2_module: name=rewrite state=present
+  register: name: rewrite_module_enabled
+
+- name: Enable Apache2 php7.0 module.
+  apache2_module: name=php7.0 state=present
+  register: php7.0_module_enabled
+
+- name: Enable Apache2 userdir module.
+  apache2_module: name=userdir state=present
+  register: userdir_module_enabled
+
+- name: Disable Apache modules.
+  apache2_module: name=dir state=absent
+  register: dir_module_disabled
+
+- name: Add Apache vvirtual hosts configuration.
+  template: src=vhost.conf.j2 dest={{ apache_server_root }}/sites-available/{{ apache_vhosts }}.conf owner=www-data group=www-data mode=0644
+  notify: Restart Apache2
+
+- name: Enable virtual hosts in Apache2 Server
+  apache2_module: name={{ item }} state=present
+  with_items:
+    - {{ apache_vhosts }}

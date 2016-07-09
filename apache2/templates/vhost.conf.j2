@@ -1,0 +1,26 @@
+# Ensure that Apache listens on port 80
+<VirtualHost *:443>
+    {% if ssl_module_enabled %}
+    SSLEngine on
+    SSLCertificateFile /etc/apache2/ssl/{{ apache_vhosts }}.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/{{ apache_vhosts }}.key
+
+    SSLUseStapling on
+    SSLCACertificateFile /etc/apache2/ssl/{{ apache_vhosts }}_root_bundle.crt
+    SSLStaplingStandardCacheTimeout 3600
+    Header always set Strict-Transport-Security "max-age=63072000; includeSubdomains; preload"
+    {% endif %}
+    ServerAdmin {{ vhost_admin_email }}
+    ServerName {{ apache_vhosts }}
+    AcceptPathInfo On
+    DocumentRoot "{{ apache_web_root }}/{{ apache_vhosts }}"
+    CustomLog "{{ apache_log_dir }}/{{ apache_vhosts }}-access_log" "combined"
+    ErrorLog "{{ apache_log_dir }}/{{ apache_vhosts }}-error_log"
+    <Directory "{{ apache_web_root }}/{{ apache_vhosts }}">
+        DirectoryIndex {{ apache_directory_index|default(index.php)}
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Order Deny,Allow
+        Require all granted
+    </Directory>
+</VirtualHost>
