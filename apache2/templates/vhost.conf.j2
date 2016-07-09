@@ -1,4 +1,4 @@
-# Ensure that Apache listens on port 80
+# Ensure that Apache listens on port {{ listen_port|default(80) }}
 <VirtualHost *:{{ listen_port|default(80) }}>
     {% if listen_port == '443' %}
     SSLEngine on
