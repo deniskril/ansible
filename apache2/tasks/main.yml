@@ -46,7 +46,6 @@
     - j.example.com
     - k.example.com
     - l.example.com
-  notify: Restart Apache2
 
 - name: Enable virtual hosts in Apache2 Server
   command: a2ensite {{ item }}
@@ -63,9 +62,7 @@
     - j.example.com
     - k.example.com
     - l.example.com
-  notify: Restart Apache2
 
-- name: Enable virtual hosts in Apache2 Server
-  apache2_module: name={{ item }} state=present
-  with_items:
-    - {{ apache_vhosts }}
+- name: Disable default site in Apache2 Server.
+  command: a2ensite 000-default
+  notify: Restart Apache2
