@@ -7,7 +7,7 @@
   with_items: "{{ apache_ports_configuration_items }}"
   notify: Restart Apache2
 
-- name: Enable Apache2 ssl modules.
+- name: Enable Apache2 SSL modules.
   apache2_module: name=ssl state=present
   register: ssl_module_enabled
 
@@ -46,8 +46,9 @@
     - j.example.com
     - k.example.com
     - l.example.com
+  notify: Restart Apache2
 
-- name: Enable virtual hosts in Apache2 Server
+- name: Enable virtual hosts in Apache2 Server.
   command: a2ensite {{ item }}
   with_items:
     - a.example.com
@@ -62,6 +63,7 @@
     - j.example.com
     - k.example.com
     - l.example.com
+  notify: Restart Apache2
 
 - name: Disable default site in Apache2 Server.
   command: a2ensite 000-default
