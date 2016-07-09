@@ -1,22 +1,22 @@
 # Ensure that Apache listens on port 80
-<VirtualHost *:443>
-    {% if ssl_module_enabled %}
+<VirtualHost *:{{ listen_port|default(80) }}>
+    {% if listen_port == '443' %}
     SSLEngine on
-    SSLCertificateFile /etc/apache2/ssl/{{ apache_vhosts }}.crt
-    SSLCertificateKeyFile /etc/apache2/ssl/{{ apache_vhosts }}.key
+    SSLCertificateFile /etc/apache2/ssl/{{ item }}.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/{{ item }}.key
 
     SSLUseStapling on
-    SSLCACertificateFile /etc/apache2/ssl/{{ apache_vhosts }}_root_bundle.crt
+    SSLCACertificateFile /etc/apache2/ssl/{{ item }}_root_bundle.crt
     SSLStaplingStandardCacheTimeout 3600
     Header always set Strict-Transport-Security "max-age=63072000; includeSubdomains; preload"
     {% endif %}
     ServerAdmin {{ vhost_admin_email }}
-    ServerName {{ apache_vhosts }}
+    ServerName {{ item }}
     AcceptPathInfo On
-    DocumentRoot "{{ apache_web_root }}/{{ apache_vhosts }}"
-    CustomLog "{{ apache_log_dir }}/{{ apache_vhosts }}-access_log" "combined"
-    ErrorLog "{{ apache_log_dir }}/{{ apache_vhosts }}-error_log"
-    <Directory "{{ apache_web_root }}/{{ apache_vhosts }}">
+    DocumentRoot "{{ apache_web_root }}/{{ item }}"
+    CustomLog "{{ apache_log_dir }}/{{ item }}-access_log" "combined"
+    ErrorLog "{{ apache_log_dir }}/{{ item }}-error_log"
+    <Directory "{{ apache_web_root }}/{{ item }}">
         DirectoryIndex {{ apache_directory_index|default(index.php)}
         Options Indexes FollowSymLinks
         AllowOverride All
