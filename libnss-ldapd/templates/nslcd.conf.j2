@@ -1,0 +1,35 @@
+uid nslcd
+gid nslcd
+
+uri {{ nslcd_uri }}
+
+base {{ nslcd_base }}
+base passwd     {{ nslcd_base_passwd }}
+base shadow     {{ nslcd_base_shadow }}
+base group      {{ nslcd_base_group }}
+
+#ldap_version 3
+
+binddn {{ nslcd_binddn }}
+bindpw {{ nslcd_bindpw }}
+
+#rootpwmoddn cn=admin,dc=example,dc=com
+
+#ssl off
+#tls_reqcert never
+#tls_cacertfile /etc/ssl/certs/ca-certificates.crt
+
+scope sub
+pagesize 1000
+referrals off
+
+filter passwd {{ nslcd_filter_passwd }}
+map passwd uid sAMAccountName
+map passwd homeDirectory unixHomeDirectory
+map passwd gecos displayName
+
+filter shadow {{ nslcd_filter_shadow }}
+map shadow uid sAMAccountName
+map shadow shadowLastChange pwdLastSet
+filter group (&(objectClass=group)(gidNumber=*))
+#map group uniqueMember member

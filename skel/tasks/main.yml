@@ -1,0 +1,12 @@
+---
+  - name: Copying .bashrc to skel
+    copy: src=.bashrc dest=/etc/skel/.bashrc
+
+  - name: Copying .vimrc to skel
+    copy: src=.vimrc dest=/etc/skel/.vimrc
+
+  - name: Copying .bashrc to root directory
+    copy: src=.bashrc dest=/root/.bashrc
+
+  - name: Copying .vimrc to root directory
+    copy: src=.vimrc dest=/root/.vimrc

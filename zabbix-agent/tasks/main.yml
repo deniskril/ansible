@@ -1,0 +1,30 @@
+---
+  - include_vars: main.yml
+
+  - name: Add Zabbix 3.0 deb repository to sourcelist
+    apt_repository: repo='deb http://repo.zabbix.com/zabbix/3.0/debian {{ ansible_distribution_release }} main' state=present
+
+  - name: Add Zabbix 3.0 deb-src repository to sourcelist
+    apt_repository: repo='deb-src http://repo.zabbix.com/zabbix/3.0/debian {{ ansible_distribution_release }} main' state=present
+
+#  - name: Add Zabbix repository key
+#    apt_key: url=http://repo.zabbix.com/zabbix-official-repo.key state=present
+
+  - name: Install Zabbix-agent 3.0
+    apt: name=zabbix-agent state=latest force=yes
+    environment:
+      DEBIAN_FRONTEND: noninteractive
+
+  - name: Setup Zabbix-server IP
+    lineinfile: dest=/etc/zabbix/zabbix_agentd.conf regexp='Server=127\.0\.0\.1' line='Server={{ zabbix_server }}'
+
+  - name: Setup Zabbix-server active IP
+    lineinfile: dest=/etc/zabbix/zabbix_agentd.conf regexp='ServerActive=127\.0\.0\.1' line='ServerActive={{ zabbix_server_active }}'
+
+  - name: Setup Zabbix-agent port
+    lineinfile: dest=/etc/zabbix/zabbix_agentd.conf regexp='# ListenPort=10050' line='ListenPort=10050'
+
+  - name: Setup Zabbix-server hostname
+    lineinfile: dest=/etc/zabbix/zabbix_agentd.conf regexp='Hostname=Zabbix server' line='Hostname={{ zabbix_server }}'
+    notify:
+      - restart zabbix-agent

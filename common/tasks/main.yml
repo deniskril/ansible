@@ -1,0 +1,33 @@
+---
+  - name: Add backports/contrib/non-free repositories
+    apt_repository: repo="deb http://ftp.ua.debian.org/ {{ ansible_distribution_release }}-backports main" state=present
+
+  - name: Add deb repositories main contrib non-free
+    apt_repository: repo="deb http://ftp.ua.debian.org/ {{ ansible_distribution_release }} main contrib non-free" state=present
+
+  - name: Add deb-src repositories main contrib non-free
+    apt_repository: repo="deb-src http://ftp.ua.debian.org/ {{ ansible_distribution_release }} main contrib non-free" state=present
+
+  - name: Add deb repositories updates contrib non-free
+    apt_repository: repo="deb http://ftp.ua.debian.org/ {{ ansible_distribution_release }}-updates main contrib non-free" state=present
+
+  - name: Add deb-src repositories updates contrib non-free
+    apt_repository: repo="deb http://security.debian.org/ {{ ansible_distribution_release }}/updates contrib non-free" state=present
+
+  - name: APT-update and upgrade
+    apt: update_cache=yes cache_valid_time={{ apt_cache_time | default(300) }} state=latest force=yes
+
+  - name: Install standard packages
+    apt: name={{ item }} state=latest force=yes
+    with_items:
+    - vim
+    - sockstat
+    - mc
+    - joe
+    - netdiag
+    - bash
+    - htop
+    - nmap
+    - fail2ban
+    - rsync
+    - sysstat

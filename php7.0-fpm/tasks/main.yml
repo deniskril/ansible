@@ -1,0 +1,15 @@
+---
+- name: Add deb repository PHP7.0
+  apt_repository: repo="deb http://packages.dotdeb.org {{ ansible_distribution_release}} all"
+
+- name: Add deb-src repository PHP7.0
+  apt_repository: repo="deb-src http://packages.dotdeb.org {{ ansible_distribution_release}} all"
+
+- name: Add PHP7.0 repository key
+  apt_key: url=https://www.dotdeb.org/dotdeb.gpg state=present validate_certs=False
+
+- name: Install PHP7.0 package
+  apt: name={{ item }} state=latest force=yes
+  with_items: "{{ php_packages }}"
+  notify:
+    - restart php7-fpm
