@@ -19,11 +19,17 @@
       - nslcd restart
       - nscd restart
 
-  - name: Change /etc/nsswitch file
+  - name: Change /etc/nsswitch.conf file
     copy: src=files/nsswitch.conf dest=/etc/nsswitch.conf owner=root mode=644
+    when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+  - name: Change /etc/nsswitch.conf file
+    template: src=nsswitch.conf.j2 dest=/etc/nsswitch.conf owner=root mode=644
+    when: ansible_distribution == 'FreeBSD'
 
   - name: Configure libnss-ldapd
     debconf: name=libnss-ldapd question='libnss-ldapd/nsswitch' value='group, hosts, passwd, shadow' vtype='multiselect'
+    when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
   - name: Update PAM Auth
     command: pam-auth-update
@@ -32,3 +38,4 @@
 
   - name: Change /etc/pam.d/common-session file
     lineinfile: dest=/etc/pam.d/common-session insertbefore="# end of pam-auth-update config" line="session required pam_mkhomedir.so skel=/etc/skel/ umask=0077"
+    when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
