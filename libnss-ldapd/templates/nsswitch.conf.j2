@@ -1,0 +1,16 @@
+#
+# nsswitch.conf(5) - name service switch configuration file
+#
+
+passwd:         {{ nsswitch_passwd }}
+group:          {{ nsswitch_group }}
+shadow:         {{ nsswitch_shadow }}
+netgroup:       {{ nsswitch_netgroup }}
+hosts:          {{ nsswitch_hosts }}
+networks:       {{ nsswitch_networks }}
+protocols:      {{ nsswitch_protocols }}
+services:       {{ nsswitch_services }}
+ethers:         {{ nsswitch_ethers }}
+rpc:            {{ nsswitch_rpc }}
+netgroup:       {{ nsswitch_netgroup }}
+
