@@ -1,12 +1,26 @@
 ---
+# nslcd.conf variables
 nslcd_uri: ldap://prime.ids-borjomi.mc/
 nslcd_base: DC=ids-borjomi,DC=mc
 nslcd_base_passwd: OU=Ukraine,DC=ids-borjomi,DC=mc
 nslcd_base_shadow: OU=Ukraine,DC=ids-borjomi,DC=mc
 nslcd_base_group: OU=Ukraine,DC=ids-borjomi,DC=mc
 nslcd_binddn: CN=FTP User,OU=Service_accounts,OU=IT,OU=Ukraine,DC=ids-borjomi,DC=mc
-nslcd_bindpw: Holocube_2014
+nslcd_bindpw: <PASSWORD>
 nslcd_filter_passwd: (&(objectClass=person)(!(userAccountControl=514))(|(memberOf=CN=IT,OU=Groups,OU=IDS,OU=Ukraine,DC=ids-borjomi,DC=mc)))
 nslcd_filter_shadow: (&(objectClass=person)(!(userAccountControl=514))(|(memberOf=CN=IT,OU=Groups,OU=IDS,OU=Ukraine,DC=ids-borjomi,DC=mc)))
 apt_cache_time: 3600
 nslcd_conf_dir: /etc
+
+# nsswitch.cong variables
+nsswitch_passwd: files ldap 
+nsswitch_group: files ldap
+nsswitch_shadow: files ldap
+nsswitch_netgroup: ldap
+nsswitch_hosts: files dns
+nsswitch_networks: files
+nsswitch_protocols: db files
+nsswitch_services: db files
+nsswitch_ethers: db files
+nsswitch_rpc: db files
+nsswitch_netgroup: nis
